@@ -1,5 +1,5 @@
 package decisionTree
 
-class VertexNode(question: String) {
-
+class VertexNode[A](question: A) {
+  var incidentEdgeList: Array[Edge[A]] = Array()
 }
