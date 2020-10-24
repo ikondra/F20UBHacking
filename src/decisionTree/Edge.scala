@@ -1,0 +1,5 @@
+package decisionTree
+
+class Edge {
+
+}

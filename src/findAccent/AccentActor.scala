@@ -1,0 +1,5 @@
+package findAccent
+
+class AccentActor {
+
+}
