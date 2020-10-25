@@ -62,8 +62,5 @@ class Graph[A] {
     }
     true
   }
-
-  def build(): Unit = {
-
-  }
 }
+
