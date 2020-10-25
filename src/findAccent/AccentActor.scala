@@ -10,18 +10,19 @@ class AccentActor extends Actor {
   var nextQuestion: String = ""
 
   override def receive: Receive = {
-    case FirstQuestion => { //sending the first question b/c no client answer
+    case FirstQuestion => { //sending the first question b/c no client answer for that
       nextQuestion = currNode.getQuestion()
       sender() ! nextQuestion
     }
     case ans: Response => { //receiving the client's answer to the question
       val theAnswer: String = ans.answer
+      currNode = accentTree.nextVertex(theAnswer)
+      nextQuestion = currNode.getQuestion()
+
       if(accentTree.end(currNode)) {
-        sender() ! Finished(theAnswer)
+        sender() ! Finished(nextQuestion)
       }
       else {
-        currNode = accentTree.nextVertex(theAnswer)
-        nextQuestion = currNode.getQuestion()
         sender() ! nextQuestion
       }
     }
