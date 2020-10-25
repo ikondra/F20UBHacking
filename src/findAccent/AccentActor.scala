@@ -15,8 +15,8 @@ class AccentActor extends Actor {
       sender() ! nextQuestion
     }
     case ans: Response => { //receiving the client's answer to the question
-      val theAnswer: String = ans.answer
-      currNode = accentTree.nextVertex(theAnswer)
+      val clientAnswer: String = ans.answer
+      currNode = accentTree.nextVertex(clientAnswer)
       nextQuestion = currNode.getQuestion()
 
       if(accentTree.end(currNode)) {
