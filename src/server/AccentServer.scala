@@ -1,6 +1,6 @@
 package server
 
-import akka.actor.{Actor, ActorRef, Props}
+import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 import com.corundumstudio.socketio.listener.DataListener
 import com.corundumstudio.socketio.{AckRequest, Configuration, SocketIOClient, SocketIOServer}
 import findAccent.AccentActor
@@ -75,4 +75,15 @@ class StopListener(server: AccentServer) extends DataListener[Nothing] {
   override def onData(client: SocketIOClient, data: Nothing, ackSender: AckRequest): Unit = {
     server.postStop()
   }
+}
+
+
+
+object AccentServer {
+
+  def main(args: Array[String]): Unit = {
+    val actorSystem: ActorSystem = ActorSystem()
+    val server: ActorRef = actorSystem.actorOf(Props(classOf[AccentServer]))
+  }
+
 }
