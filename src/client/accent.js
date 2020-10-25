@@ -9,7 +9,9 @@ socket.on('nextQuestion', function (question) {
 });
 
 socket.on('finished', function (finalAns) {
-    document.getElementById("displayFinalAnswer").innerHTML = finalAns;
+    document.getElementById("answerButtons").style.display = "block";
+    document.getElementById("restart").style.display = "none";
+    document.getElementById("displayQuestion").innerHTML = "Your accent is " + finalAns + "!";
 });
 
 
@@ -25,6 +27,7 @@ function questionAnswered(ans) {
 }
 
 function restart() {
+    document.getElementById("displayQuestion").innerHTML = "";
     socket.emit("restart");
 }
 
@@ -33,11 +36,6 @@ function stop() {
 }
 
 
-
-document.getElementById("start").onclick = function start() {
-    startDecisions();
-    document.getElementById("content").innerHTML = "<h2 id='nextQuestion'></h2> <button id='yes'>Yes</button> <button id='no'>No</button> <button id='restart'>";
-};
 
 document.getElementById("yes").onclick = function yes() {
     questionAnswered("yes");
