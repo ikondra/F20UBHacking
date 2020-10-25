@@ -7,6 +7,7 @@ import decisionTree._
 class AccentActor extends Actor {
 
   val accentTree: Graph[String] = new Graph[String]
+  // the decision tree
   val rhotic = accentTree.insertVertexNode("Do you pronounce Rs at the end of words? (rhotic r)")
   val initialH = accentTree.insertVertexNode("Do you pronounce white like \"hwite\"? (initial h)")
   accentTree.insertEdge(rhotic, initialH, "yes")
