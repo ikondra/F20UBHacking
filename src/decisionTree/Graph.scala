@@ -1,33 +1,41 @@
 package decisionTree
 
+import scala.collection.mutable.ArrayBuffer
+
 class Graph[A] {
 
   var head: VertexNode[A] = null
 
-  val currentVertexNode: VertexNode[A] = null
+  var currentVertexNode: VertexNode[A] = head
 
-  var vertexNodeList: Array[VertexNode[A]] = Array()
-  var edgeList: Array[Edge[A]] = Array()
+  var vertexNodeList: ArrayBuffer[VertexNode[A]] = ArrayBuffer()
+  var edgeList: ArrayBuffer[Edge[A]] = ArrayBuffer()
 
-  def insertVertexNode[A](value: A): Unit = {
+  def insertVertexNode(value: A): VertexNode[A] = {
     if (head == null) {
-      head = new VertexNode(value)
+      val node = new VertexNode[A](value)
+      head = node
+      currentVertexNode = node
       vertexNodeList = vertexNodeList :+ head
+      node
     }
 
     else {
+      val node = new VertexNode[A](value)
       vertexNodeList = vertexNodeList :+ new VertexNode[A](value)
+      node
     }
   }
 
-  def insertEdge[A, B](prevNode: VertexNode[A], nextNode: VertexNode[A], value: String): Unit = {
-      val edge: Edge[A] = new Edge[A](prevNode, nextNode, value)
-      edgeList = edgeList :+ edge
-      prevNode.incidentEdgeList = prevNode.incidentEdgeList :+ edge
-      nextNode.incidentEdgeList = prevNode.incidentEdgeList :+ edge
+  def insertEdge(prevNode: VertexNode[A], nextNode: VertexNode[A], value: String): Edge[A] = {
+    val edge: Edge[A] = new Edge[A](prevNode, nextNode, value)
+    edgeList = edgeList :+ edge
+    prevNode.incidentEdgeList = prevNode.incidentEdgeList :+ edge
+    nextNode.incidentEdgeList = prevNode.incidentEdgeList :+ edge
+    edge
   }
 
-    // traversing
+  // traversing
   def nextVertex(answer: String): VertexNode[A] = {
     // check that there is an edge that matches answer
     if (currentVertexNode.incidentEdgeList.indexWhere(e => e.value == answer) != -1) {
@@ -35,21 +43,27 @@ class Graph[A] {
       while (answer != currentVertexNode.incidentEdgeList(i).value) {
         i = i + 1
       }
-      currentVertexNode.incidentEdgeList(i).nextNode
+      val node = currentVertexNode
+      currentVertexNode = node.incidentEdgeList(i).nextNode
+      node.incidentEdgeList(i).nextNode
     }
     // otherwise return back the current node
     else {
       currentVertexNode
     }
   }
-    // determine end
+
+  // true if end, false if not
   def end(vertexNode: VertexNode[A]): Boolean = {
-    if (currentVertexNode.incidentEdgeList.length < 2) {
-      false
+    for (edge <- vertexNode.incidentEdgeList) {
+      if (edge.prevNode == vertexNode) {
+        return false
+      }
     }
-    else {
-      true
-    }
+    true
   }
 
+  def build(): Unit = {
+
+  }
 }

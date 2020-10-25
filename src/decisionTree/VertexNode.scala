@@ -1,9 +1,5 @@
 package decisionTree
 
-class VertexNode[A](question: A) {
+class VertexNode[A](val question: A) {
   var incidentEdgeList: Array[Edge[A]] = Array()
-
-  def getQuestion(): A = {
-    question
-  }
 }
