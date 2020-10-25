@@ -20,6 +20,12 @@ button:hover {
 }
 
 .answerButtons {
-    align-content: center;
+    margin-left: auto;
+    margin-right: auto;
     padding: 10px;
+}
+
+.restart {
+    margin-left: auto;
+    margin-right: auto;
 }
