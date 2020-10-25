@@ -24,10 +24,6 @@ function startDecisions() {
     socket.emit("startDecisions");
 }
 
-function questionAnswered(ans) {
-    socket.emit("questionAnswered", ans);
-}
-
 function answeredYes() {
     socket.emit("questionAnswered", "yes");
 }

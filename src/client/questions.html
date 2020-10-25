@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="accent.css">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script src="socket.io-2.2.0.js"></script>
 </head>
 <body>
 
@@ -14,11 +14,11 @@
 
 <table class="answerButtons">
     <tr>
-        <th><button id="yes" class="yes" onclick="answeredYes()">Yes</button></th>
-        <th><button id="no" class="no" onclick="answeredNo()">No</button></th>
+        <th><button id="yes" class="button" onclick="answeredYes()">Yes</button></th>
+        <th><button id="no" class="button" onclick="answeredNo()">No</button></th>
     </tr>
     <tr>
-        <th><button id="restart" class="restart" onclick="restart()">Restart?</button></th>
+        <th><button id="restart" class="button" onclick="restart()">Restart?</button></th>
     </tr>
 </table>
 

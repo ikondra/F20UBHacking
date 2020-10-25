@@ -18,7 +18,7 @@ class AccentServer extends Actor {
 
   val server: SocketIOServer = new SocketIOServer(config)
 
-  server.addEventListener("startDecisions", classOf[String], new StartDecisionListener(this))
+  server.addEventListener("startDecisions", classOf[Nothing], new StartDecisionListener(this))
   server.addEventListener("questionAnswered", classOf[String], new AnswerListener(this))
   server.addEventListener("restart", classOf[Nothing], new RestartListener(this))
   server.addEventListener("stop", classOf[Nothing], new StopListener(this))
@@ -45,8 +45,9 @@ class AccentServer extends Actor {
 
 //starts up this whole guessing thing
 //sends an initial Response message to actor to start up everything
-class StartDecisionListener(server: AccentServer) extends DataListener[String] {
-  override def onData(client: SocketIOClient, username: String, ackSender: AckRequest): Unit = {
+class StartDecisionListener(server: AccentServer) extends DataListener[Nothing] {
+  override def onData(client: SocketIOClient, data: Nothing, ackSender: AckRequest): Unit = {
+    println("bruh")
     val person: ActorRef = server.context.actorOf(Props(classOf[AccentActor]))
     server.actorToSocket += (person -> client)
     server.socketToActor += (client -> person)
@@ -57,8 +58,16 @@ class StartDecisionListener(server: AccentServer) extends DataListener[String] {
 //picks up the client's answer and sends it to the corresponding actor
 class AnswerListener(server: AccentServer) extends DataListener[String] {
   override def onData(client: SocketIOClient, clientAns: String, ackSender: AckRequest): Unit = {
-    val actorForSend: ActorRef = server.socketToActor.apply(client)
-    actorForSend ! Response(clientAns)
+    val actorForSend: ActorRef = server.socketToActor.getOrElse(client, null)
+    if(actorForSend != null) {
+      actorForSend ! Response(clientAns)
+    }
+    else {
+      val person: ActorRef = server.context.actorOf(Props(classOf[AccentActor]))
+      server.actorToSocket += (person -> client)
+      server.socketToActor += (client -> person)
+      person ! FirstQuestion
+    }
   }
 }
 
