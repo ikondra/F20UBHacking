@@ -19,6 +19,7 @@ socket.on('finished', function (finalAns) {
 //messages sent to server
 
 function startDecisions() {
+    console.log("yee")
     socket.emit("startDecisions");
 }
 
@@ -47,9 +48,4 @@ document.getElementById("no").onclick = function no() {
 
 document.getElementById("restart").onclick = function restart() {
     restart();
-};
-
-document.getElementById("stop").onclick = function stop() {
-    stop();
-    document.getElementById("content").innerHTML = "";
 };
